@@ -1,3 +1,9 @@
+So why is django-imagekit forked here?
+======================================
+
+The latest django-imagekit release is 3.3, and we need commit https://github.com/matthewwithanm/django-imagekit/commit/6457cf0c55dda6e59bd1af639e2c89b7f7af67d6 which is not yet in a release.
+
+
 |Build Status|_
 
 .. |Build Status| image:: https://travis-ci.org/matthewwithanm/django-imagekit.svg?branch=develop
