@@ -56,7 +56,21 @@ class BaseIKFile(File):
 
     def open(self, mode='rb'):
         self._require_file()
-        self.file.open(mode)
+        # release 3.3 code, bad:
+        #   self.file.open(mode)
+        # backport of 6457cf0c55dda6e59bd1af639e2c89b7f7af67d6 for ticket #5481:
+        try:
+            self.file.open(mode)
+        except ValueError:
+            # if the underlaying file can't be reopened
+            # then we will use the storage to try to open it again
+            if self.file.closed:
+                # clear cached file instance
+                del self.file
+                # Because file is a property we can acces it after
+                # we deleted it
+                return self.file.open(mode)
+            raise
 
     def _get_closed(self):
         file = getattr(self, '_file', None)
